@@ -9,7 +9,7 @@ using UnityEngine.Tilemaps;
 namespace TilemapWorldGenerator
 {
     [CreateAssetMenu(fileName = "WFCNode", menuName = "WFC/Node")]
-    [System.Serializable]
+    [Serializable]
     public class Node : ScriptableObject
     {
         public Tile Tile;
@@ -30,8 +30,7 @@ namespace TilemapWorldGenerator
             Bottom = new NodeConnection();
         }
     }
-
-    [System.Serializable]
+    [Serializable]
     public class NodeConnection
     {
         public List<Node> CompatibleNodes = new List<Node>();

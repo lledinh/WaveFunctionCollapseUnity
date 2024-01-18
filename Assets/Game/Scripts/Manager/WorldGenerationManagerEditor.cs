@@ -14,22 +14,19 @@ namespace TilemapWorldGenerator
     {
         public override void OnInspectorGUI()
         {
-            // Draw the rest of the inspector as usual
             DrawDefaultInspector();
 
             WorldGenerationManager script = (WorldGenerationManager) target;
-
 
             if (GUILayout.Button("Generated Tile Scriptable Objects"))
             {
                 script.ExtractRules();
             }
 
-            if (GUILayout.Button("Clear Generated Tile Scriptable Objects"))
+            if (GUILayout.Button("Generated Map Using Generated SO"))
             {
-
+                script.GenerateWorld();
             }
-
         }
     }
 }
