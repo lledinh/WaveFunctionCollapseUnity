@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace TilemapWorldGenerator
 {
+    [Serializable]
     public class TileProperties
     {
         public TileBase TileBase { get; private set; }

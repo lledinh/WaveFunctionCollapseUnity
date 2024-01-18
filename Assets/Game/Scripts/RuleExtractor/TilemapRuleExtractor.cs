@@ -12,23 +12,20 @@ namespace TilemapWorldGenerator
 {
     public class TilemapRuleExtractor : MonoBehaviour
     {
-        // The tilemap to analyze and extract rules
-        [SerializeField] private Tilemap Tilemap;
-        // Extracted width
-        [SerializeField] private int Width;
-        // Extracted height
-        [SerializeField] private int Height;
-
         private class TilemapDef
         {
             public Tilemap Tilemap;
+            // Extracted width
             public int Width;
+            // Extracted height
             public int Height;
             public TileBase[] Tiles;
         }
 
-        private TilemapDef _tilemapDef;
+        // The tilemap to analyze and extract rules
+        [SerializeField] private Tilemap Tilemap;
         private TileProperties[] TilesProperties;
+        private TilemapDef _tilemapDef;
 
         public void ExtractRules()
         {
@@ -108,18 +105,17 @@ namespace TilemapWorldGenerator
 
         private TileBase GetTile(TilemapDef tilemapDef, int x, int y)
         {
-            return (x >= 0 && x < Width && y >= 0 && y < Height) ? tilemapDef.Tiles[x + y * tilemapDef.Width] : null;
+            return (x >= 0 && x < tilemapDef.Width && y >= 0 && y < tilemapDef.Height) ? tilemapDef.Tiles[x + y * tilemapDef.Width] : null;
         }
 
         private TileBase[] GetNeighbours(TilemapDef tilemapDef, int i)
         {
-            return new TileBase[]
-            {
-                GetTile(tilemapDef, (i % tilemapDef.Width) - 1, i / tilemapDef.Width),
-                GetTile(tilemapDef, (i % tilemapDef.Width), (i  / tilemapDef.Width) + 1),
-                GetTile(tilemapDef, (i % tilemapDef.Width) + 1, i / tilemapDef.Width),
-                GetTile(tilemapDef, (i % tilemapDef.Width), (i  / tilemapDef.Width) - 1)
-            };
+            TileBase Left = GetTile(tilemapDef, (i % tilemapDef.Width) - 1, i / tilemapDef.Width);
+            TileBase Up = GetTile(tilemapDef, (i % tilemapDef.Width), (i / tilemapDef.Width) + 1);
+            TileBase Right = GetTile(tilemapDef, (i % tilemapDef.Width) + 1, i / tilemapDef.Width);
+            TileBase Down = GetTile(tilemapDef, (i % tilemapDef.Width), (i / tilemapDef.Width) - 1);
+
+            return new TileBase[] { Left, Up, Right, Down };
         }
 
         TileProperties GetTileDefFromTileBase(TileProperties[] TilesDefinition, TileBase t)
