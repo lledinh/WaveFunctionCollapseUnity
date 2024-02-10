@@ -11,11 +11,11 @@ namespace TilemapWorldGenerator
         [SerializeField] private Tilemap Tilemap;
         [SerializeField] private int Width;
         [SerializeField] private int Height;
-        public List<Node> Nodes = new List<Node>();
-        public Tile BlankTile;
-        public Node GrassNode;
+        public List<TileElement> Nodes = new List<TileElement>();
+        public UnityEngine.Tilemaps.Tile BlankTile;
+        public TileElement GrassNode;
 
-        private Node[,] _grid;
+        private TileElement[,] _grid;
         private List<Vector2Int> _toCollapse = new List<Vector2Int>();
         private Vector2Int[] offsets = new Vector2Int[]
         {
@@ -27,7 +27,7 @@ namespace TilemapWorldGenerator
 
         private void InitGrid()
         {
-            _grid = new Node[Width, Height];
+            _grid = new TileElement[Width, Height];
 
             for (int i = 0; i < Nodes.Count; i++)
             {
@@ -59,6 +59,79 @@ namespace TilemapWorldGenerator
             CollapseWorld();
         }
 
+        private void CollapseWorld2()
+        {
+            _toCollapse.Clear();
+            _toCollapse.Add(new Vector2Int(Width / 2, Height / 2));
+
+
+            while (_toCollapse.Count > 0)
+            {
+                int x = _toCollapse[0].x;
+                int y = _toCollapse[0].y;
+
+                // Potential tiles of the current node; here all of existing tiles
+                List<TileElement> potentialNodes = new List<TileElement>(Nodes);
+
+                for (int i = 0; i < offsets.Length; i++)
+                {
+                    Vector2Int neighbour = new Vector2Int(x + offsets[i].x, y + offsets[i].y);
+
+                    if (IsInsideGrid(neighbour))
+                    {
+                        TileElement neighbourNode = _grid[neighbour.x, neighbour.y];
+
+                        if (neighbourNode != null)
+                        {
+                            switch (i)
+                            {
+                                case 0:
+                                    WhittleNodes(potentialNodes, neighbourNode.Bottom.CompatibleNodes);
+                                    break;
+                                case 1:
+                                    WhittleNodes(potentialNodes, neighbourNode.Top.CompatibleNodes);
+                                    break;
+                                case 2:
+                                    WhittleNodes(potentialNodes, neighbourNode.Left.CompatibleNodes);
+                                    break;
+                                case 3:
+                                    WhittleNodes(potentialNodes, neighbourNode.Right.CompatibleNodes);
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            if (!_toCollapse.Contains(neighbour))
+                            {
+                                _toCollapse.Add(neighbour);
+                            }
+                        }
+                    }
+                }
+
+                if (_grid[x, y] != null)
+                {
+                    //Debug.Log($"Not changing tile {x} {y}");
+                    _toCollapse.RemoveAt(0);
+                    continue;
+                }
+
+                if (potentialNodes.Count <= 0)
+                {
+                    _grid[x, y] = Nodes[0];
+                    Tilemap.SetTile(new Vector3Int(x, y, 0), BlankTile);
+                    Debug.LogWarning("Attempted to collapse wave on " + x + ", " + y + " but found no compatibles nodes.");
+                }
+                else
+                {
+                    _grid[x, y] = potentialNodes[Random.Range(0, potentialNodes.Count)];
+                    Tilemap.SetTile(new Vector3Int(x, y, 0), _grid[x, y].Tile);
+                }
+
+                _toCollapse.RemoveAt(0);
+            }
+        }
+        
         private void CollapseWorld()
         {
             _toCollapse.Clear();
@@ -78,7 +151,7 @@ namespace TilemapWorldGenerator
                 int x = _toCollapse[0].x;
                 int y = _toCollapse[0].y;
 
-                List<Node> potentialNodes = new List<Node>(Nodes);
+                List<TileElement> potentialNodes = new List<TileElement>(Nodes);
 
                 for (int i = 0; i < offsets.Length; i++)
                 {
@@ -86,7 +159,7 @@ namespace TilemapWorldGenerator
 
                     if (IsInsideGrid(neighbour))
                     {
-                        Node neighbourNode = _grid[neighbour.x, neighbour.y];
+                        TileElement neighbourNode = _grid[neighbour.x, neighbour.y];
 
                         if (neighbourNode != null)
                         {
@@ -145,7 +218,12 @@ namespace TilemapWorldGenerator
             Debug.Log($"Iteration count: {iterationCount}");
         }
 
-        private void WhittleNodes(List<Node> potentialNodes, List<Node> validNodes)
+        private void SetNode()
+        {
+
+        }
+
+        private void WhittleNodes(List<TileElement> potentialNodes, List<TileElement> validNodes)
         {
             for (int i = potentialNodes.Count - 1; i >= 0; i--)
             {

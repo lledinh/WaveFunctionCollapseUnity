@@ -14,8 +14,6 @@ namespace TilemapWorldGenerator
     {
         public override void OnInspectorGUI()
         {
-            DrawDefaultInspector();
-
             WorldGenerationManager script = (WorldGenerationManager) target;
 
             if (GUILayout.Button("Generated Tile Scriptable Objects"))

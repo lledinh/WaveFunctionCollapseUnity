@@ -46,7 +46,7 @@ public class Utils
         AssetDatabase.Refresh();
     }
 
-    public static Node[] GetAllNodesDefinitionFromDirectory(string directoryPath)
+    public static TileElement[] GetAllNodesDefinitionFromDirectory(string directoryPath)
     {
         // Ensure the directory exists
         if (!Directory.Exists(directoryPath))
@@ -55,14 +55,14 @@ public class Utils
             return null;
         }
 
-        List<Node> nodes = new List<Node>();
+        List<TileElement> nodes = new List<TileElement>();
 
         // Get all asset paths in the directory
         string[] assetPaths = AssetDatabase.GetAllAssetPaths();
         foreach (string assetPath in assetPaths)
         {
             // Check if the asset is in the specified directory and is a Node
-            Node node = AssetDatabase.LoadAssetAtPath<Node>(assetPath);
+            TileElement node = AssetDatabase.LoadAssetAtPath<TileElement>(assetPath);
             if (node != null && assetPath.StartsWith(directoryPath))
             {
                 nodes.Add(node);
@@ -70,7 +70,7 @@ public class Utils
         }
 
         // Convert the list to an array if needed
-        Node[] nodeArray = nodes.ToArray();
+        TileElement[] nodeArray = nodes.ToArray();
 
         return nodeArray;
     }

@@ -23,6 +23,7 @@ namespace TilemapWorldGenerator
         }
 
         // The tilemap to analyze and extract rules
+
         [SerializeField] private Tilemap Tilemap;
         private TileProperties[] TilesProperties;
         private TilemapDef _tilemapDef;
@@ -60,9 +61,9 @@ namespace TilemapWorldGenerator
                 TileBase tile = tiles[i];
                 TileProperties t = tilesTypes.FirstOrDefault(tileType => tileType.TileBase == tile);
                 if (t == null)
-                    tilesTypes.Add(new TileProperties(tile, tile.name, 1));
+                    tilesTypes.Add(new TileProperties(tile/*, tile.name, 1*/));
                 else
-                    t.IncreaseWeight(1);
+                    t.IncreaseEncounteredCount(1);
             }
 
             return tilesTypes.ToArray();
@@ -131,7 +132,7 @@ namespace TilemapWorldGenerator
         }
 
 
-        private Node GetNodeFromTileDefinition(Node[] nodes, TileProperties tileDefinition)
+        private TileElement GetNodeFromTileDefinition(TileElement[] nodes, TileProperties tileDefinition)
         {
             for (int i = 0; i < nodes.Length; i++)
             {
@@ -147,15 +148,15 @@ namespace TilemapWorldGenerator
 
         private void CreateScriptableObjects(TileProperties[] TileProperties)
         {
-            Node[] nodesSO = new Node[TileProperties.Length];
+            TileElement[] nodesSO = new TileElement[TileProperties.Length];
 
             for (int i = 0; i < TileProperties.Length; i++)
             {
                 TileProperties TileProperty = TileProperties[i];
-                Node nodeSO = ScriptableObject.CreateInstance<Node>();
+                TileElement nodeSO = ScriptableObject.CreateInstance<TileElement>();
                 nodeSO.Tile = TileProperty.TileBase as UnityEngine.Tilemaps.Tile;
                 nodeSO.Name = TileProperty.Name;
-                nodeSO.Weight = TileProperty.Weight;
+                nodeSO.Weight = TileProperty.EncounteredCount;
                 nodesSO[i] = nodeSO;
             }
 
@@ -164,29 +165,29 @@ namespace TilemapWorldGenerator
                 TileProperties TileProperty = TileProperties[i];
                 for (int j = 0; j < TileProperty.Left.Count; j++)
                 {
-                    Node nLeft = GetNodeFromTileDefinition(nodesSO, TileProperty.Left[j]);
+                    TileElement nLeft = GetNodeFromTileDefinition(nodesSO, TileProperty.Left[j]);
                     nodesSO[i].Left.CompatibleNodes.Add(nLeft);
                 }
 
                 for (int j = 0; j < TileProperty.Top.Count; j++)
                 {
-                    Node nTop = GetNodeFromTileDefinition(nodesSO, TileProperty.Top[j]);
+                    TileElement nTop = GetNodeFromTileDefinition(nodesSO, TileProperty.Top[j]);
                     nodesSO[i].Top.CompatibleNodes.Add(nTop);
                 }
 
                 for (int j = 0; j < TileProperty.Right.Count; j++)
                 {
-                    Node nRight = GetNodeFromTileDefinition(nodesSO, TileProperty.Right[j]);
+                    TileElement nRight = GetNodeFromTileDefinition(nodesSO, TileProperty.Right[j]);
                     nodesSO[i].Right.CompatibleNodes.Add(nRight);
                 }
 
                 for (int j = 0; j < TileProperty.Bottom.Count; j++)
                 {
-                    Node nBottom = GetNodeFromTileDefinition(nodesSO, TileProperty.Bottom[j]);
+                    TileElement nBottom = GetNodeFromTileDefinition(nodesSO, TileProperty.Bottom[j]);
                     nodesSO[i].Bottom.CompatibleNodes.Add(nBottom);
                 }
 
-                string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath("Assets/Game/ScriptableObjects/Generated/ " + typeof(Node).Name + "_" + TileProperty.Name + ".asset");
+                string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath("Assets/Game/ScriptableObjects/Generated/ " + typeof(TileElement).Name + "_" + TileProperty.Name + ".asset");
 
                 AssetDatabase.CreateAsset(nodesSO[i], assetPathAndName);
                 AssetDatabase.SaveAssets();

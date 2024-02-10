@@ -10,12 +10,15 @@ namespace TilemapWorldGenerator
 {
     public class WorldGenerationManager : MonoBehaviour
     {
-        [SerializeField] private TilemapRuleExtractor TilemapRuleExtractor;
-        [SerializeField] private WorldGenerator WorldGenerator;
+        private TilemapRuleExtractor TilemapRuleExtractor;
+        private WFCTilemapTraverser WFCTilemapTraverser;
         public string ScriptableObjectsOutputPath = "Assets/Game/ScriptableObjects/Generated/";
+
 
         public void ExtractRules()
         {
+            TilemapRuleExtractor = GetComponent<TilemapRuleExtractor>();
+            WFCTilemapTraverser = GetComponent<WFCTilemapTraverser>();
             Utils.CreateFolderIfNotExists(ScriptableObjectsOutputPath);
             Utils.DeleteAllScriptableObjects(ScriptableObjectsOutputPath);
             TilemapRuleExtractor.ExtractRules();
@@ -23,7 +26,8 @@ namespace TilemapWorldGenerator
 
         public void GenerateWorld()
         {
-            WorldGenerator.Generate();
+            //WorldGenerator.Generate();
+            WFCTilemapTraverser.Generate();
         }
     }
 }
