@@ -13,10 +13,11 @@ namespace WFCEditor
         private float StepDelay = 0.05f;
         EditorCoroutine coroutine;
 
-        public void Clear()
+        public void Clear(WFCLiveRendering script)
         {
             if (coroutine != null)
             {
+                script.Clear();
                 EditorCoroutineUtility.StopCoroutine(coroutine);
                 coroutine = null;
             }
@@ -62,7 +63,7 @@ namespace WFCEditor
 
             if (GUILayout.Button("Start Auto Step By Step"))
             {
-                Clear();
+                Clear(script);
                 if (StepDelay <= 0f)
                 {
                     coroutine = EditorCoroutineUtility.StartCoroutine(Generate(script), this);
@@ -75,14 +76,14 @@ namespace WFCEditor
 
             if (GUILayout.Button("Clear"))
             {
-                Clear();
+                Clear(script);
             }
             EditorGUILayout.Space(50);
             GUILayout.Label("---------- LINEAR --------", EditorStyles.boldLabel);
 
             if (GUILayout.Button("Automatic Generation"))
             {
-                Clear();
+                Clear(script);
                 script.GenerateStepLinear();
                 bool done = false;
                 while (!done)
@@ -94,14 +95,14 @@ namespace WFCEditor
 
             if (GUILayout.Button("Automatic Generation Timelapse"))
             {
-                Clear();
+                Clear(script);
                 coroutine = EditorCoroutineUtility.StartCoroutine(GenerateStepByStepLinear(script), this);
             }
 
 
             if (GUILayout.Button("Initalize Step By Step"))
             {
-                Clear();
+                Clear(script);
                 script.GenerateStepLinear();
             }
 
@@ -112,7 +113,7 @@ namespace WFCEditor
 
             if (GUILayout.Button("Clear"))
             {
-                Clear();
+                Clear(script);
             }
 
             /*EditorGUILayout.Space(50);

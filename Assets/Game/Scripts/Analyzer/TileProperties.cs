@@ -21,7 +21,7 @@ namespace TilemapWorldGenerator
         public TileProperties(TileBase tile)
         {
             TileBase = tile;
-            EncounteredCount = 0;
+            EncounteredCount = 1;
             Left = new List<TileProperties>();
             Top = new List<TileProperties>();
             Right = new List<TileProperties>();

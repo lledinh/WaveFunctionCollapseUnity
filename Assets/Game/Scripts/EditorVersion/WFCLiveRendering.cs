@@ -372,6 +372,11 @@ namespace WFCEditor
             Tilemap.SetTile(new Vector3Int(0, 0, 0), tile);
         }
 
+        public void Clear()
+        {
+            Debug.Log("Clearing tilemap...");
+            Tilemap.ClearAllTiles();
+        }
 
 
 
