@@ -12,18 +12,19 @@ using Newtonsoft.Json;
 public class ConfigReader : MonoBehaviour
 {
     public string configFilePath = "Assets/Game/Data/TileConfigMine.json";
-    public TileDataModel JSONTileDataModel;
+    public JSONTileDataModel JSONTileDataModel;
     public Config config;
 
     [ContextMenu("ReadJSON")]
-    public TileDataModel ReadJSON()
+    public JSONTileDataModel ReadJSON()
     {
         string filePath = Path.Combine(Application.dataPath, "Game/Data/TileConfigMine.json");
 
         if (File.Exists(filePath))
         {
             string dataAsJson = File.ReadAllText(filePath);
-            JSONTileDataModel = JsonConvert.DeserializeObject<TileDataModel>(dataAsJson);
+            JSONTileDataModel = JsonConvert.DeserializeObject<JSONTileDataModel>(dataAsJson);
+            config.jsonTileDataModel = JSONTileDataModel;
             return JSONTileDataModel;
         }
         else

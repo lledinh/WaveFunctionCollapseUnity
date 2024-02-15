@@ -18768,7 +18768,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1430152045}
-  - component: {fileID: 1430152044}
   m_Layer: 0
   m_Name: WorldGenerator
   m_TagString: Untagged
@@ -18776,27 +18775,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1430152044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1430152043}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05e072440f892cc489e68b8707e8042c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Width: 8
-  Height: 8
-  DebugTiles: []
-  config: {fileID: 11400000, guid: 444f7b7635084434c94de94fa93117a0, type: 2}
-  _configReader: {fileID: 1478767409}
-  classTileConfiguration:
-    TileTypes: []
-    TileEdges: []
-    Rules: []
 --- !u!4 &1430152045
 Transform:
   m_ObjectHideFlags: 0
@@ -18821,7 +18799,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1478767410}
-  - component: {fileID: 1478767409}
+  - component: {fileID: 1478767411}
   m_Layer: 0
   m_Name: JSONReader
   m_TagString: Untagged
@@ -18829,20 +18807,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1478767409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1478767408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 520b1ce63dadb50438687800249ffec7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  configFilePath: /Assets/Game/Data/TileConfigMine.json
-  config: {fileID: 11400000, guid: 444f7b7635084434c94de94fa93117a0, type: 2}
 --- !u!4 &1478767410
 Transform:
   m_ObjectHideFlags: 0
@@ -18858,6 +18822,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1478767411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478767408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1602dbb2e42bf904990c9fb1e57abc06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  configFilePath: Game/Data/TileConfigMineList.json
+  JSONTileDataModel:
+    TileTypes: []
+    TileEdges: []
+    TileRules: []
+    TileWeights: []
+  config: {fileID: 11400000, guid: 444f7b7635084434c94de94fa93117a0, type: 2}
 --- !u!1 &1546763659
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,7 +18,7 @@ public class World : MonoBehaviour
     [ContextMenu("Start initialization")]
     void Start()
     {
-        TileDataModel TileDataModel = _configReader.ReadJSON();
+        JSONTileDataModel TileDataModel = _configReader.ReadJSON();
         Debug.Log(TileDataModel.TileTypes.Count);
 
         classTileConfiguration = new ClassTileConfiguration(TileDataModel);

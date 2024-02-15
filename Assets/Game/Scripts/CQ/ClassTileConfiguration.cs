@@ -18,14 +18,14 @@ public class ClassTileConfiguration
 
     public Dictionary<ClassTileType, int> TileWeights;
 
-    public ClassTileConfiguration(TileDataModel tileDataModel = null)
+    public ClassTileConfiguration(JSONTileDataModel tileDataModel = null)
     {
         TileTypes = new List<ClassTileType>();
         TileEdges = new List<ClassTileEdge>();
         Rules = new List<ClassTileRule>();
         TileWeights = new Dictionary<ClassTileType, int>();
 
-        foreach (KeyValuePair<string, int> kv in tileDataModel.TileTypes)
+        /*foreach (KeyValuePair<string, int> kv in tileDataModel.TileTypes)
         {
             TileTypes.Add(new ClassTileType(kv.Key, kv.Value));
         }
@@ -52,6 +52,6 @@ public class ClassTileConfiguration
         {
             ClassTileType classTileType = TileTypes.Find(x => x.name == kv.Key);
             TileWeights.Add(classTileType, kv.Value);
-        }
+        }*/
     }
 }
