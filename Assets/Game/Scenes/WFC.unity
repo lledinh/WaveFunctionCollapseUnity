@@ -152,8 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db69b1202f02bfd4381b8deaf1beddbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Width: 5
-  Height: 5
+  Width: 2
+  Height: 2
   ConfigTile: {fileID: 11400000, guid: 9a4e74a3d6f00234f92758e52f83b0a6, type: 2}
   tilemap: {fileID: 1006877016}
   tiles:
@@ -167,6 +167,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a046b54b6a74a3f47ad803c7e376ae56, type: 2}
   - {fileID: 11400000, guid: c9a6976b763267f49bff54d241f6322c, type: 2}
   - {fileID: 11400000, guid: 98f7702969329154e889f4539859ea36, type: 2}
+  t1:
+    X: 0
+    Y: 0
+    Neighbours: []
+    PossibleTiles: []
+  t2:
+    X: 0
+    Y: 0
+    Neighbours: []
+    PossibleTiles: []
   stackContent: []
 --- !u!4 &63759434
 Transform:
