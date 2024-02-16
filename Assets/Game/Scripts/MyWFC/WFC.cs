@@ -6,16 +6,23 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEditor.Build.Content;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 namespace Assets.Game.Scripts.MyWFC
 {
     public class WFC : MonoBehaviour
     {
-        public int Width = 8;
-        public int Height = 8;
+        public int Width = 5;
+        public int Height = 5;
         public ConfigTile ConfigTile;
 
         public ClassTile[,] Tiles;
+
+        public Stack<ClassTile> stackTiles;
+
+        public Tilemap tilemap;
+        public Tile[] tiles;
 
         private RH.TileDataModel _tileDataModel;
 
@@ -35,9 +42,11 @@ namespace Assets.Game.Scripts.MyWFC
 
             foreach (KeyValuePair<string, List<string>> kv in _tileDataModel.TileRules)
             {
-                for(int i = 0; i < kv.Value.Count; i++)
+                ClassTileType tileType = AllTileTypes.Find(x => x.Name == kv.Key);
+                for (int i = 0; i < kv.Value.Count; i++)
                 {
-                    AllTileTypes.Find(x => x.Name == kv.Key).AddRule((ClassTileEdge) i, AllTileTypes.Find(x => x.Name == kv.Value[i]));
+                    ClassTileType t = AllTileTypes.Find(x => x.Name == kv.Value[i]);
+                    tileType.AddRule((ClassTileEdge) i, t);
                 }
             }
 
@@ -48,63 +57,196 @@ namespace Assets.Game.Scripts.MyWFC
                     Tiles[x, y] = new ClassTile(x, y, AllTileTypes);
                 }
             }
+            Run();
         }
 
         public void Run()
         {
+            int iterationCount = 0;
+            bool error = false;
+            while(!IsFullyCollapsed() && !error)
+            {
+                Debug.Log($"Iteration count {iterationCount}");
+                if (iterationCount > 1000 || error)
+                {
+                    Debug.LogError("Too many iterations");
+                    break;
+                }
+                error = Iterate();
+                if (error) 
+                    Debug.Log($"Error at iteraction {iterationCount}");
+                iterationCount++;
+            }
+            Debug.Log("All tiles collapsed");
+
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    tilemap.SetTile(new Vector3Int(x, y, 0), tiles[Tiles[x, y].PossibleTiles[0].Id]);
+                }
+            }
 
         }
 
-        public void Iterate()
+        bool IsFullyCollapsed()
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    if (Tiles[x, y].PossibleTiles.Count > 1)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public bool Iterate()
         {
             // Get tile with lowest entropy
             (int x, int y) coordsLowestEntropy = GetLowestEntropyTile();
+            Debug.Log($"Lowest entropy tile at {coordsLowestEntropy.x}, {coordsLowestEntropy.y}");
             // Collaspe this tile
             Collapse(coordsLowestEntropy.x, coordsLowestEntropy.y);
             // Propagate the changes
-            Propagate(coordsLowestEntropy.x, coordsLowestEntropy.y);
+            bool state = Propagate(coordsLowestEntropy.x, coordsLowestEntropy.y);
+            return state;
         }
 
-        public void Propagate(int x, int y)
+        public List<ClassTile> stackContent;
+
+        public bool Propagate(int x, int y)
         {
-            Stack<ClassTile> tiles = new Stack<ClassTile>();
+            stackTiles = new Stack<ClassTile>();
 
-            tiles.Push(Tiles[x, y]);
+            stackTiles.Push(Tiles[x, y]);
+            int iterationCount = 0;
 
-            while (tiles.Count > 0)
+            while (stackTiles.Count > 0)
             {
-                ClassTile tile = tiles.Pop();
+                stackContent = stackTiles.ToList();
+                if (iterationCount > 1000)
+                {
+                    Debug.LogError("Too many iterations");
+                    Debug.LogError($"stackTiles.Count {stackTiles.Count}");
+                    return true;
+                }
+
+                Debug.Log($"Stack count {stackTiles.Count}");
+                ClassTile tile = stackTiles.Pop();
                 // Possible tiles for the current tile
                 List<ClassTileType> possibleTiles = tile.PossibleTiles;
 
-                bool constrain = false;
+                bool constrain = true;
+                ClassTileType tileToConstrain = null;
                 if (y < Height - 1)
                 {
                     ClassTile tileUp = Tiles[x, y + 1];
-                    foreach (ClassTileType possibleTile in tileUp.PossibleTiles)
+                    if (tileUp.PossibleTiles.Count > 1)
                     {
-                        if (possibleTile.Rules[(int)ClassTileEdge.Bottom])
+                        foreach (ClassTileType neighbourPossibleTile in tileUp.PossibleTiles)
+                        {
+                            foreach (ClassTileType possibleTile in possibleTiles)
+                            {
+                                if (neighbourPossibleTile.Rules[(int)ClassTileEdge.Bottom].Id == possibleTile.Id)
+                                {
+                                    tileToConstrain = neighbourPossibleTile;
+                                    constrain = false;
+                                }
+                            }
+                            if (constrain)
+                            {
+                                tileUp.PossibleTiles.Remove(tileToConstrain);
+                                stackTiles.Push(tileUp);
+                            }
+                        }
                     }
+                    
                 }
 
                 constrain = false;
                 if (x < Width - 1)
                 {
                     ClassTile tileRight = Tiles[x + 1, y];
+                    if (tileRight.PossibleTiles.Count > 1)
+                    {
+                        foreach (ClassTileType neighbourPossibleTile in tileRight.PossibleTiles)
+                        {
+                            foreach (ClassTileType possibleTile in possibleTiles)
+                            {
+                                if (neighbourPossibleTile.Rules[(int)ClassTileEdge.Left].Id == possibleTile.Id)
+                                {
+                                    tileToConstrain = neighbourPossibleTile;
+                                    constrain = false;
+                                }
+                            }
+                            if (constrain)
+                            {
+                                tileRight.PossibleTiles.Remove(tileToConstrain);
+                                stackTiles.Push(tileRight);
+                            }
+                        }
+                    }
                 }
 
                 constrain = false;
                 if (y > 0)
                 {
                     ClassTile tileDown = Tiles[x, y - 1];
+                    if (tileDown.PossibleTiles.Count > 1)
+                    {
+                        foreach (ClassTileType neighbourPossibleTile in tileDown.PossibleTiles)
+                        {
+                            foreach (ClassTileType possibleTile in possibleTiles)
+                            {
+                                if (neighbourPossibleTile.Rules[(int)ClassTileEdge.Top].Id == possibleTile.Id)
+                                {
+                                    tileToConstrain = neighbourPossibleTile;
+                                    constrain = false;
+                                }
+                            }
+                            if (constrain)
+                            {
+                                tileDown.PossibleTiles.Remove(tileToConstrain);
+                                stackTiles.Push(tileDown);
+                            }
+                        }
+                    }
+                        
                 }
 
                 constrain = false;
                 if (x > 0)
                 {
                     ClassTile tileLeft = Tiles[x - 1, y];
+
+                    if (tileLeft.PossibleTiles.Count > 1)
+                    {
+                        foreach (ClassTileType neighbourPossibleTile in tileLeft.PossibleTiles)
+                        {
+                            foreach (ClassTileType possibleTile in possibleTiles)
+                            {
+                                if (neighbourPossibleTile.Rules[(int)ClassTileEdge.Right].Id == possibleTile.Id)
+                                {
+                                    tileToConstrain = neighbourPossibleTile;
+                                    constrain = false;
+                                }
+                            }
+                            if (constrain)
+                            {
+                                tileLeft.PossibleTiles.Remove(tileToConstrain);
+                                stackTiles.Push(tileLeft);
+                            }
+                        }
+                    }
+                        
                 }
+                iterationCount++;
             }
+            return false;
         }
 
         public void Collapse(int x, int y)
@@ -113,7 +255,7 @@ namespace Assets.Game.Scripts.MyWFC
             List<int> weights = new List<int>();
             for (int i = 0; i < tile.PossibleTiles.Count; i++)
             {
-                weights[i] = tile.PossibleTiles[i].Weight;
+                weights.Add(tile.PossibleTiles[i].Weight);
             }
 
             int rdmChoice = WeightedRandomSelect(weights.ToArray());
@@ -190,14 +332,12 @@ namespace Assets.Game.Scripts.MyWFC
     {
         public int X;
         public int Y;
-        public int Entropy;
         public List<ClassTileType> PossibleTiles;
 
         public ClassTile(int x, int y, List<ClassTileType> possibleTiles)
         {
             X = x;
             Y = y;
-            Entropy = -1;
             PossibleTiles = possibleTiles;
         }
     }
