@@ -171,11 +171,13 @@ MonoBehaviour:
     X: 0
     Y: 0
     Neighbours: []
+    PossibleTiles: []
     Collapsed: 0
   t2:
     X: 0
     Y: 0
     Neighbours: []
+    PossibleTiles: []
     Collapsed: 0
   stackContent: []
 --- !u!4 &63759434
@@ -612,6 +614,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2e0cb880011bdbf4fb8c5c5e3776bab9, type: 2}
   - {fileID: 11400000, guid: 2cf9d369a6c7332499359ef143ba103e, type: 2}
   - {fileID: 11400000, guid: 308397c0482be394fa56dd893ff4397d, type: 2}
+  errorTile: {fileID: 0}
   seed: 0
   autorun: 1
   lastSeed: -1
@@ -1093,7 +1096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1602dbb2e42bf904990c9fb1e57abc06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  configFilePath: Game/Data/TileConfigMineList.json
+  configFilePath: Game/Data/TileConfigMineEdge.json
   JSONTileDataModel:
     TileTypes:
     - Key: TILE_GRASS
@@ -1224,9 +1227,9 @@ MonoBehaviour:
       - TILE_DIRT_N
     TileWeights:
     - Key: TILE_GRASS
-      Value: 100
+      Value: 50
     - Key: TILE_DIRT
-      Value: 16
+      Value: 100
     - Key: TILE_DIRT_N
       Value: 5
     - Key: TILE_DIRT_E
