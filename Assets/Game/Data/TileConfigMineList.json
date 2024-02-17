@@ -34,14 +34,14 @@
   "TileRules": [
     {"key": "TILE_GRASS", "value": ["TILE_GRASS", "TILE_GRASS", "TILE_GRASS", "TILE_GRASS"]},
     {"key": "TILE_DIRT", "value": ["TILE_DIRT", "TILE_DIRT", "TILE_DIRT", "TILE_DIRT"]},
-    {"key": "TILE_DIRT_N", "value": ["TILE_DIRT", "TILE_DIRT_N", "TILE_GRASS", "TILE_DIRT_N"]},
-    {"key": "TILE_DIRT_E", "value": ["TILE_DIRT_E", "TILE_DIRT", "TILE_DIRT_E", "TILE_GRASS"]},
-    {"key": "TILE_DIRT_S", "value": ["TILE_GRASS", "TILE_DIRT_S", "TILE_DIRT", "TILE_DIRT_S"]},
-    {"key": "TILE_DIRT_W", "value": ["TILE_DIRT_W", "TILE_GRASS", "TILE_DIRT_W", "TILE_DIRT"]},
-    {"key": "TILE_DIRT_NE", "value": ["TILE_DIRT_E", "TILE_DIRT_N", "TILE_GRASS", "TILE_GRASS"]},
-    {"key": "TILE_DIRT_SE", "value": ["TILE_GRASS", "TILE_DIRT_S", "TILE_DIRT_E", "TILE_GRASS"]},
-    {"key": "TILE_DIRT_SW", "value": ["TILE_GRASS", "TILE_GRASS", "TILE_DIRT_W", "TILE_DIRT_S"]},
-    {"key": "TILE_DIRT_NW", "value": ["TILE_DIRT_W", "TILE_GRASS", "TILE_GRASS", "TILE_DIRT_N"]}
+    {"key": "TILE_DIRT_N", "value": ["TILE_GRASS", "TILE_DIRT_N", "TILE_DIRT", "TILE_DIRT_N"]},
+    {"key": "TILE_DIRT_E", "value": ["TILE_DIRT_E", "TILE_GRASS", "TILE_DIRT_E", "TILE_DIRT"]},
+    {"key": "TILE_DIRT_S", "value": ["TILE_DIRT", "TILE_DIRT_S", "TILE_GRASS", "TILE_DIRT_S"]},
+    {"key": "TILE_DIRT_W", "value": ["TILE_DIRT_W", "TILE_DIRT", "TILE_DIRT_W", "TILE_GRASS"]},
+    {"key": "TILE_DIRT_NE", "value": ["TILE_GRASS", "TILE_GRASS", "TILE_DIRT_E", "TILE_DIRT_N"]},
+    {"key": "TILE_DIRT_SE", "value": ["TILE_DIRT_E", "TILE_GRASS", "TILE_GRASS", "TILE_DIRT_S"]},
+    {"key": "TILE_DIRT_SW", "value": ["TILE_DIRT_W", "TILE_DIRT_S", "TILE_GRASS", "TILE_GRASS"]},
+    {"key": "TILE_DIRT_NW", "value": ["TILE_GRASS", "TILE_DIRT_N", "TILE_DIRT_W", "TILE_GRASS"]}
   ],
   "TileWeights": [
     {"key": "TILE_GRASS", "value": 16},

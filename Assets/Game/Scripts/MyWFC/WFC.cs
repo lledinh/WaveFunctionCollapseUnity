@@ -264,12 +264,13 @@ namespace Assets.Game.Scripts.MyWFC
                     ClassTile tileUp = Tiles[tile.X, tile.Y + 1];
                     if (tileUp.PossibleTiles.Count > 1)
                     {
-                        foreach (ClassTileType neighbourPossibleTile in new List<ClassTileType>(tileUp.PossibleTiles))
+                        List<ClassTileType> neighboursPossibleTiles = new List<ClassTileType>(tileUp.PossibleTiles);
+                        foreach (ClassTileType neighbourPossibleTile in neighboursPossibleTiles)
                         {
                             constrain = true;
                             foreach (ClassTileType possibleTile in possibleTiles)
                             {
-                                if (neighbourPossibleTile.Rules[(int)ClassTileEdge.Bottom].Id == possibleTile.Id)
+                                if (possibleTile.Rules[(int)ClassTileEdge.Top].Id == neighbourPossibleTile.Id)
                                 {
                                     constrain = false;
                                 }
@@ -293,12 +294,13 @@ namespace Assets.Game.Scripts.MyWFC
                     ClassTile tileRight = Tiles[tile.X + 1, tile.Y];
                     if (tileRight.PossibleTiles.Count > 1)
                     {
-                        foreach (ClassTileType neighbourPossibleTile in new List<ClassTileType>(tileRight.PossibleTiles))
+                        List<ClassTileType> neighboursPossibleTiles = new List<ClassTileType>(tileRight.PossibleTiles);
+                        foreach (ClassTileType neighbourPossibleTile in neighboursPossibleTiles)
                         {
                             constrain = true;
                             foreach (ClassTileType possibleTile in possibleTiles)
                             {
-                                if (neighbourPossibleTile.Rules[(int)ClassTileEdge.Left].Id == possibleTile.Id)
+                                if (possibleTile.Rules[(int)ClassTileEdge.Right].Id == neighbourPossibleTile.Id)
                                 {
                                     constrain = false;
                                 }
@@ -323,12 +325,13 @@ namespace Assets.Game.Scripts.MyWFC
                     ClassTile tileDown = Tiles[tile.X, tile.Y - 1];
                     if (tileDown.PossibleTiles.Count > 1)
                     {
-                        foreach (ClassTileType neighbourPossibleTile in new List<ClassTileType>(tileDown.PossibleTiles))
+                        List<ClassTileType> neighboursPossibleTiles = new List<ClassTileType>(tileDown.PossibleTiles);
+                        foreach (ClassTileType neighbourPossibleTile in neighboursPossibleTiles)
                         {
                             constrain = true;
                             foreach (ClassTileType possibleTile in possibleTiles)
                             {
-                                if (neighbourPossibleTile.Rules[(int)ClassTileEdge.Top].Id == possibleTile.Id)
+                                if (possibleTile.Rules[(int)ClassTileEdge.Bottom].Id == neighbourPossibleTile.Id)
                                 {
                                     constrain = false;
                                 }
@@ -355,12 +358,13 @@ namespace Assets.Game.Scripts.MyWFC
 
                     if (tileLeft.PossibleTiles.Count > 1)
                     {
-                        foreach (ClassTileType neighbourPossibleTile in new List<ClassTileType>(tileLeft.PossibleTiles))
+                        List<ClassTileType> neighboursPossibleTiles = new List<ClassTileType>(tileLeft.PossibleTiles);
+                        foreach (ClassTileType neighbourPossibleTile in neighboursPossibleTiles)
                         {
                             constrain = true;
                             foreach (ClassTileType possibleTile in possibleTiles)
                             {
-                                if (neighbourPossibleTile.Rules[(int)ClassTileEdge.Right].Id == possibleTile.Id)
+                                if (possibleTile.Rules[(int)ClassTileEdge.Left].Id == neighbourPossibleTile.Id)
                                 {
                                     constrain = false;
                                 }
@@ -472,11 +476,13 @@ namespace Assets.Game.Scripts.MyWFC
         public int Y;
         public List<ClassTile> Neighbours;
         public List<ClassTileType> PossibleTiles;
+        public bool Collapsed;
 
         public ClassTile(int x, int y, List<ClassTileType> possibleTiles)
         {
             X = x;
             Y = y;
+            Collapsed = false;
             PossibleTiles = new List<ClassTileType>(possibleTiles);
             Neighbours = new List<ClassTile>();
         }

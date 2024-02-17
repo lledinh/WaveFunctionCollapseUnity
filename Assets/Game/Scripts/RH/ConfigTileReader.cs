@@ -17,10 +17,6 @@ namespace RH
 
         public void Start()
         {
-            Debug.Log("ConfigReader Start");
-            Debug.Log(config.jsonTileDataModel == null);
-            Debug.Log(config.jsonTileDataModel.TileEdges.Count);
-
         }
 
         [ContextMenu("ReadJSON")]
