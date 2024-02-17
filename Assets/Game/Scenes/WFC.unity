@@ -554,8 +554,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c35f8e81e173b08468bfa4e4fd887e55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Width: 4
-  Height: 4
+  Width: 60
+  Height: 60
   ConfigTile: {fileID: 11400000, guid: 9a4e74a3d6f00234f92758e52f83b0a6, type: 2}
   tilemap: {fileID: 1006877016}
   tiles:
@@ -579,10 +579,11 @@ MonoBehaviour:
   autorun: 1
   lastSeed: -1
   foundError: 0
-  done: 1
+  done: 0
   generationFinished: 1
   DoStep: 1
   i: 0
+  IteractionCount: 0
 --- !u!4 &992568902
 Transform:
   m_ObjectHideFlags: 0

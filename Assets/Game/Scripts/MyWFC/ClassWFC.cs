@@ -111,7 +111,7 @@ namespace Assets.Game.Scripts.MyWFC
         {
             if (x == -1 && y == -1)
             {
-                (x, y) = GetLowestEntropyTile();
+                (x, y) = GetLowestEntropyTile2();
                 if (x == -1 && (y == -1)) { return true; }
             }
             /*else
@@ -297,6 +297,37 @@ namespace Assets.Game.Scripts.MyWFC
             tile.PossibleTiles = new List<ClassTileType> { tile.PossibleTiles[rdmChoice] };
             tile.Collapsed = true;
         }
+
+        public (int, int) GetLowestEntropyTile2()
+        {
+            float minEntropy = float.MaxValue;
+            (int, int) chosenCoords = (-1, -1);
+
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    ClassTile tile = Tiles[x, y];
+
+                    if (tile.Collapsed)
+                    {
+                        continue;
+                    }
+
+                    float entropy = tile.PossibleTiles.Count;
+                    //float noise = UnityEngine.Random.Range(0f, 1f) / 1000f;
+                    //if (entropy - noise < minEntropy)
+                    if (entropy < minEntropy)
+                    {
+                        //minEntropy = entropy - noise;
+                        minEntropy = entropy;
+                        chosenCoords = (x, y);
+                    }
+                }
+            }
+            return chosenCoords;
+        }
+
 
         public (int, int) GetLowestEntropyTile()
         {

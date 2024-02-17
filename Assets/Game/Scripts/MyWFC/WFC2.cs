@@ -125,7 +125,7 @@ namespace Assets.Game.Scripts.MyWFC
             }
             else 
             {
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (!done)
                 {
                     if (IteractionCount == 12)
                     {
