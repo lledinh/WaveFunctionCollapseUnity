@@ -147,7 +147,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 63759432}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db69b1202f02bfd4381b8deaf1beddbd, type: 3}
   m_Name: 
@@ -171,13 +171,11 @@ MonoBehaviour:
     X: 0
     Y: 0
     Neighbours: []
-    PossibleTiles: []
     Collapsed: 0
   t2:
     X: 0
     Y: 0
     Neighbours: []
-    PossibleTiles: []
     Collapsed: 0
   stackContent: []
 --- !u!4 &63759434
@@ -595,8 +593,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c35f8e81e173b08468bfa4e4fd887e55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Width: 20
-  Height: 20
+  Width: 30
+  Height: 30
   ConfigTile: {fileID: 11400000, guid: 9a4e74a3d6f00234f92758e52f83b0a6, type: 2}
   tilemap: {fileID: 1006877016}
   tiles:
@@ -610,10 +608,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a046b54b6a74a3f47ad803c7e376ae56, type: 2}
   - {fileID: 11400000, guid: c9a6976b763267f49bff54d241f6322c, type: 2}
   - {fileID: 11400000, guid: 98f7702969329154e889f4539859ea36, type: 2}
-  seed: -1
+  - {fileID: 11400000, guid: 667c0e824ceeb044982e7a18dae26dcd, type: 2}
+  - {fileID: 11400000, guid: 2e0cb880011bdbf4fb8c5c5e3776bab9, type: 2}
+  - {fileID: 11400000, guid: 2cf9d369a6c7332499359ef143ba103e, type: 2}
+  - {fileID: 11400000, guid: 308397c0482be394fa56dd893ff4397d, type: 2}
+  seed: 0
   autorun: 1
-  TilesList: []
-  TileCollapseOrder: []
+  lastSeed: -1
 --- !u!4 &992568902
 Transform:
   m_ObjectHideFlags: 0
@@ -691,7 +692,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -716,7 +717,7 @@ Transform:
   m_GameObject: {fileID: 1001510069}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 15, y: 15, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -969,7 +970,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 992568901}
         m_TargetAssemblyTypeName: Assets.Game.Scripts.MyWFC.WFC2, Assembly-CSharp
-        m_MethodName: Run
+        m_MethodName: RunRandom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1032,7 +1033,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1430152045
 Transform:
   m_ObjectHideFlags: 0
@@ -1115,6 +1116,14 @@ MonoBehaviour:
       Value: 8
     - Key: TILE_DIRT_NW
       Value: 9
+    - Key: TILE_DIRT_NE2
+      Value: 10
+    - Key: TILE_DIRT_SE2
+      Value: 11
+    - Key: TILE_DIRT_SW2
+      Value: 12
+    - Key: TILE_DIRT_NW2
+      Value: 13
     TileEdges:
     - Key: GRASS
       Value: 0
@@ -1189,27 +1198,59 @@ MonoBehaviour:
       - TILE_DIRT_N
       - TILE_DIRT_W
       - TILE_GRASS
+    - Key: TILE_DIRT_NE2
+      Value:
+      - TILE_DIRT_E
+      - TILE_DIRT_N
+      - TILE_DIRT
+      - TILE_DIRT
+    - Key: TILE_DIRT_SE2
+      Value:
+      - TILE_DIRT
+      - TILE_DIRT_S
+      - TILE_DIRT_E
+      - TILE_DIRT
+    - Key: TILE_DIRT_SW2
+      Value:
+      - TILE_DIRT
+      - TILE_DIRT
+      - TILE_DIRT_W
+      - TILE_DIRT_S
+    - Key: TILE_DIRT_NW2
+      Value:
+      - TILE_DIRT_W
+      - TILE_DIRT
+      - TILE_DIRT
+      - TILE_DIRT_N
     TileWeights:
     - Key: TILE_GRASS
-      Value: 16
+      Value: 100
     - Key: TILE_DIRT
-      Value: 4
+      Value: 16
     - Key: TILE_DIRT_N
-      Value: 1
+      Value: 5
     - Key: TILE_DIRT_E
-      Value: 1
+      Value: 5
     - Key: TILE_DIRT_S
-      Value: 1
+      Value: 5
     - Key: TILE_DIRT_W
-      Value: 1
+      Value: 5
     - Key: TILE_DIRT_NE
-      Value: 1
+      Value: 5
     - Key: TILE_DIRT_SE
-      Value: 1
+      Value: 5
     - Key: TILE_DIRT_SW
-      Value: 1
+      Value: 5
     - Key: TILE_DIRT_NW
-      Value: 1
+      Value: 5
+    - Key: TILE_DIRT_NE2
+      Value: 2
+    - Key: TILE_DIRT_SE2
+      Value: 2
+    - Key: TILE_DIRT_SW2
+      Value: 2
+    - Key: TILE_DIRT_NW2
+      Value: 2
   config: {fileID: 11400000, guid: 9a4e74a3d6f00234f92758e52f83b0a6, type: 2}
 --- !u!1 &1546763659
 GameObject:

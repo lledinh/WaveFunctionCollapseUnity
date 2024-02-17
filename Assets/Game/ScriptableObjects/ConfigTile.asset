@@ -13,7 +13,159 @@ MonoBehaviour:
   m_Name: ConfigTile
   m_EditorClassIdentifier: 
   jsonTileDataModel:
-    TileTypes: []
-    TileEdges: []
-    TileRules: []
-    TileWeights: []
+    TileTypes:
+    - Key: TILE_GRASS
+      Value: 0
+    - Key: TILE_DIRT
+      Value: 1
+    - Key: TILE_DIRT_N
+      Value: 2
+    - Key: TILE_DIRT_E
+      Value: 3
+    - Key: TILE_DIRT_S
+      Value: 4
+    - Key: TILE_DIRT_W
+      Value: 5
+    - Key: TILE_DIRT_NE
+      Value: 6
+    - Key: TILE_DIRT_SE
+      Value: 7
+    - Key: TILE_DIRT_SW
+      Value: 8
+    - Key: TILE_DIRT_NW
+      Value: 9
+    - Key: TILE_DIRT_NE2
+      Value: 10
+    - Key: TILE_DIRT_SE2
+      Value: 11
+    - Key: TILE_DIRT_SW2
+      Value: 12
+    - Key: TILE_DIRT_NW2
+      Value: 13
+    TileEdges:
+    - Key: GRASS
+      Value: 0
+    - Key: DIRT
+      Value: 1
+    - Key: DIRT_N
+      Value: 2
+    - Key: DIRT_E
+      Value: 3
+    - Key: DIRT_S
+      Value: 4
+    - Key: DIRT_W
+      Value: 5
+    TileRules:
+    - Key: TILE_GRASS
+      Value:
+      - TILE_GRASS
+      - TILE_GRASS
+      - TILE_GRASS
+      - TILE_GRASS
+    - Key: TILE_DIRT
+      Value:
+      - TILE_DIRT
+      - TILE_DIRT
+      - TILE_DIRT
+      - TILE_DIRT
+    - Key: TILE_DIRT_N
+      Value:
+      - TILE_GRASS
+      - TILE_DIRT_N
+      - TILE_DIRT
+      - TILE_DIRT_N
+    - Key: TILE_DIRT_E
+      Value:
+      - TILE_DIRT_E
+      - TILE_GRASS
+      - TILE_DIRT_E
+      - TILE_DIRT
+    - Key: TILE_DIRT_S
+      Value:
+      - TILE_DIRT
+      - TILE_DIRT_S
+      - TILE_GRASS
+      - TILE_DIRT_S
+    - Key: TILE_DIRT_W
+      Value:
+      - TILE_DIRT_W
+      - TILE_DIRT
+      - TILE_DIRT_W
+      - TILE_GRASS
+    - Key: TILE_DIRT_NE
+      Value:
+      - TILE_GRASS
+      - TILE_GRASS
+      - TILE_DIRT_E
+      - TILE_DIRT_N
+    - Key: TILE_DIRT_SE
+      Value:
+      - TILE_DIRT_E
+      - TILE_GRASS
+      - TILE_GRASS
+      - TILE_DIRT_S
+    - Key: TILE_DIRT_SW
+      Value:
+      - TILE_DIRT_W
+      - TILE_DIRT_S
+      - TILE_GRASS
+      - TILE_GRASS
+    - Key: TILE_DIRT_NW
+      Value:
+      - TILE_GRASS
+      - TILE_DIRT_N
+      - TILE_DIRT_W
+      - TILE_GRASS
+    - Key: TILE_DIRT_NE2
+      Value:
+      - TILE_DIRT_E
+      - TILE_DIRT_N
+      - TILE_DIRT
+      - TILE_DIRT
+    - Key: TILE_DIRT_SE2
+      Value:
+      - TILE_DIRT
+      - TILE_DIRT_S
+      - TILE_DIRT_E
+      - TILE_DIRT
+    - Key: TILE_DIRT_SW2
+      Value:
+      - TILE_DIRT
+      - TILE_DIRT
+      - TILE_DIRT_W
+      - TILE_DIRT_S
+    - Key: TILE_DIRT_NW2
+      Value:
+      - TILE_DIRT_W
+      - TILE_DIRT
+      - TILE_DIRT
+      - TILE_DIRT_N
+    TileWeights:
+    - Key: TILE_GRASS
+      Value: 16
+    - Key: TILE_DIRT
+      Value: 16
+    - Key: TILE_DIRT_N
+      Value: 1
+    - Key: TILE_DIRT_E
+      Value: 1
+    - Key: TILE_DIRT_S
+      Value: 1
+    - Key: TILE_DIRT_W
+      Value: 1
+    - Key: TILE_DIRT_NE
+      Value: 1
+    - Key: TILE_DIRT_SE
+      Value: 1
+    - Key: TILE_DIRT_SW
+      Value: 1
+    - Key: TILE_DIRT_NW
+      Value: 1
+    - Key: TILE_DIRT_NE2
+      Value: 1
+    - Key: TILE_DIRT_SE2
+      Value: 1
+    - Key: TILE_DIRT_SW2
+      Value: 1
+    - Key: TILE_DIRT_NW2
+      Value: 1

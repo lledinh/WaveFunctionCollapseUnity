@@ -25,6 +25,7 @@ namespace Assets.Game.Scripts.MyWFC
 
         public Tilemap tilemap;
         public Tile[] tiles;
+        public Tile errorTile;
 
         private const int TOP = 0;
         private const int RIGHT = 1;
@@ -34,9 +35,10 @@ namespace Assets.Game.Scripts.MyWFC
         public int seed = -1;
         public bool autorun = true;
 
-        public List<ClassTile> TilesList;
-        public List<ClassTile> TileCollapseOrder;
+        [NonSerialized] public List<ClassTile> TilesList;
+        [NonSerialized] public List<ClassTile> TileCollapseOrder;
         private RH.TileDataModel _tileDataModel;
+        public int lastSeed = -1;
 
         public void Start()
         {
@@ -149,9 +151,10 @@ namespace Assets.Game.Scripts.MyWFC
             {
                 for (int y = 0; y < Height; y++)
                 {
-                    if (Tiles[x, y].PossibleTiles.Count != 1)
+                    if (!Tiles[x, y].Collapsed)
                     {
-                        //Debug.LogError($"{x}, {y} PossibleTiles.Count {Tiles[x, y].PossibleTiles.Count}");
+                        Debug.LogError($"{x}, {y} PossibleTiles.Count {Tiles[x, y].PossibleTiles.Count}");
+                        tilemap.SetTile(new Vector3Int(x, y, 0), tiles[Tiles[x, y].PossibleTiles[0].Id]);
                     }
                     else
                     {
@@ -190,6 +193,12 @@ namespace Assets.Game.Scripts.MyWFC
             }*/
         }
 
+        public void RunRandom()
+        {
+            Run();
+            lastSeed = seed;
+            seed = -1;
+        }
 
         public void Run()
         {
@@ -199,7 +208,6 @@ namespace Assets.Game.Scripts.MyWFC
             while (!done)
             {
                 done = Iterate();
-                DrawAll();
             }
             DrawAll();
             Debug.Log("Done");
@@ -375,7 +383,6 @@ namespace Assets.Game.Scripts.MyWFC
             }
 
             int rdmChoice = WeightedRandomSelect(weights.ToArray());
-            Debug.Log($"Collapsing tile {x} {y} with {tile.PossibleTiles[rdmChoice].Name}");
             tile.PossibleTiles = new List<ClassTileType> { tile.PossibleTiles[rdmChoice] };
             tile.Collapsed = true;
         }
